@@ -5,3 +5,7 @@
         Submit
     </button>
 </form>
+
+<div>
+    {{ $this->table }}
+</div>

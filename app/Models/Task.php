@@ -5,32 +5,29 @@ namespace App\Models;
 use Log;
 use App\Enum\TaskStatusEnum;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Task extends Model
 {
     use HasFactory;
 
-    public function allTasksForUser(
+    public function allTasksForUser
+    (
         User $user
-    ) {
-        return Tasks::where('user_id', $user->id)
-            ->where('status', '!=', TaskStatusEnum::REMOVED);
+    ): Builder {
+        return Task::where('user_id', $user->id)
+            ->where('status', '!=', 'removed');
     }
 
     public function createTask(
-        String $taskTitle
-    ): Task|Array|Null
+        array $form_fields
+    ): Task|Array
     {
-
-        if (empty($taskTitle)) {
-            // Task title cannot be empty
-            return null;
-        }
 
         try {
             $task = new Task();
-            $task->title = $taskTitle;
+            $task->title = $form_fields['task_title'];
             $task->save();
             return $task;
         } catch(\Exception $e){

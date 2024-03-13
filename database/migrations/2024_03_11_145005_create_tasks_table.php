@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->integer('user_id')->unsigned();
+            $table->string('status');
+            $table->unsignedBigInteger('user_id')->unsigned();
             $table->timestamps();
             //FKs
             $table->foreign('user_id')->references('id')->on('users');
